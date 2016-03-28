@@ -1,4 +1,4 @@
-require 'rails/activerecord'
+require 'activerecord'
 require 'graphql'
 
 require "graphql/active_record/version"
@@ -7,7 +7,7 @@ require "graphql/active_record/version"
 # This class allows GraphQL to translate ActiveRecord objects into
 # GraphQL objects easily and does an auto-include to make it
 # somewhat more efficient (hopefully)
-class Graphql::ActiveRecord < ::GraphQL::Field
+class GraphQL::ActiveRecord < ::GraphQL::Field
   def initialize(model:, type:, use_uuid: false)
     @model = model
     @use_uuid = use_uuid

@@ -5,7 +5,7 @@ require 'graphql/active_record/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "graphql-active_record"
-  spec.version       = Graphql::ActiveRecord::VERSION
+  spec.version       = Graphql::ActiveRecordExtension::VERSION
   spec.authors       = ["Brett Jurgens"]
   spec.email         = ["brett@brettjurgens.com"]
 

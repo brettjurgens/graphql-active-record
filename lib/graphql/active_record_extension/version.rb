@@ -1,5 +1,5 @@
 module Graphql
-  module ActiveRecord
+  module ActiveRecordExtension
     VERSION = "0.1.4"
   end
 end

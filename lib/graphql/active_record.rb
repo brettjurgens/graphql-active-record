@@ -1,4 +1,4 @@
-require 'activerecord'
+require 'active_record'
 require 'graphql'
 
 require "graphql/active_record/version"

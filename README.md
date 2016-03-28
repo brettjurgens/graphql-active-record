@@ -1,15 +1,13 @@
-# Graphql::Active::Record
+# GraphQL::ActiveRecordExtension
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/graphql/active/record`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Active Record includes for GraphQL
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'graphql-active-record'
+gem 'graphql-active_record'
 ```
 
 And then execute:
@@ -18,11 +16,18 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install graphql-active-record
+    $ gem install graphql-active_record
 
 ## Usage
 
-TODO: Write usage instructions here
+Use like:
+
+```ruby
+GraphQL::ActiveRecordExtension.new(type: Type, model: Model)
+
+# using UUID
+GraphQL::ActiveRecordExtension.new(type: Type, model: Model, use_uuid: true)
+```
 
 ## Development
 
@@ -32,7 +37,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/graphql-active-record.
+Bug reports and pull requests are welcome on GitHub at https://github.com/brettjurgens/graphql-active-record.
 
 
 ## License

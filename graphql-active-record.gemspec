@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'graphql/active_record_extension/version'
+require 'graphql/active_record_extensions/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "graphql-active_record"
-  spec.version       = Graphql::ActiveRecordExtension::VERSION
+  spec.version       = GraphQL::ActiveRecordExtensions::VERSION
   spec.authors       = ["Brett Jurgens"]
   spec.email         = ["brett@brettjurgens.com"]
 

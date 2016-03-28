@@ -1,4 +1,4 @@
-# GraphQL::ActiveRecordExtension
+# GraphQL::ActiveRecordExtensions
 
 Active Record includes for GraphQL
 
@@ -23,10 +23,10 @@ Or install it yourself as:
 Use like:
 
 ```ruby
-GraphQL::ActiveRecordExtension.new(type: Type, model: Model)
+GraphQL::ActiveRecordExtensions::Field.new(type: Type, model: Model)
 
 # using UUID
-GraphQL::ActiveRecordExtension.new(type: Type, model: Model, use_uuid: true)
+GraphQL::ActiveRecordExtensions::Field.new(type: Type, model: Model, use_uuid: true)
 ```
 
 ## Development

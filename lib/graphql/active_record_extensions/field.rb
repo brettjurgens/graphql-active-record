@@ -12,7 +12,7 @@ module GraphQL
         self.type = type
         self.description = "Find a #{model.name} by ID"
         self.arguments = {
-          id: GraphQL::Argument.define do
+          'id' => GraphQL::Argument.define do
             type !GraphQL::ID_TYPE
             description "Id for record"
           end
@@ -32,7 +32,8 @@ module GraphQL
       def resolve(object, arguments, ctx)
         includes = map_includes(@model, ctx.ast_node.selections, ctx)
 
-        model_with_includes = @model.includes(*includes)
+        model_with_includes = include_in_model(@model, includes)
+
         if @use_uuid
           model_with_includes.find_by_uuid(arguments['id'])
         else
@@ -44,6 +45,11 @@ module GraphQL
       end
 
       private
+
+      def include_in_model(model, includes)
+        includes.present? ? model.includes(*includes) : model
+      end
+
       ##
       # generates an array for use in AR::QueryMethods.includes
       # allows for nested includes as well
@@ -60,8 +66,8 @@ module GraphQL
           table_name, node = handle_fragments(selection, ctx)
 
           if node.present? && node.selections.present?
-            singular = table_name.singularize.to_sym
-            plural   = table_name.pluralize.to_sym
+            singular = table_name.singularize
+            plural   = table_name.pluralize
 
             # make sure that the next model is an ActiveRecord model
             next_model = singular.to_s.classify.safe_constantize
@@ -72,11 +78,11 @@ module GraphQL
 
             nested = map_includes(next_model, node.selections, ctx)
 
-            final_type =  if model.reflections[singular].present?
+            final_type =  if (model.reflections[singular] || model.reflections[singular.to_sym]).present?
                             # this is for has_one relationships
                             singular
 
-                          elsif model.reflections[plural].present?
+                          elsif (model.reflections[plural] || model.reflections[plural.to_sym]).present?
                             # this is for has_many relationships
                             plural
 

@@ -4,8 +4,6 @@ end
 
 appraise 'rails_4.0' do
   gem 'activerecord', '~> 4.0.13'
-  gem 'minitest'
-  gem 'minitest-reporters'
 end
 
 appraise 'rails_4.1' do

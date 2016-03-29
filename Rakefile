@@ -1,10 +1,13 @@
-require "bundler/gem_tasks"
-require "rake/testtask"
+require 'rubygems'
+require 'bundler/setup'
+Bundler::GemHelper.install_tasks
 
-Rake::TestTask.new(:test) do |t|
-  t.libs << "test"
-  t.libs << "lib"
-  t.test_files = FileList['test/**/*_test.rb']
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  t.libs << "spec" << "lib"
+  t.pattern = "spec/**/*_spec.rb"
+  t.warning = false
 end
 
-task :default => :test
+task default: :test

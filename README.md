@@ -1,4 +1,6 @@
-# GraphQL::ActiveRecordExtensions
+# GraphQL::ActiveRecordExtensions 
+
+[![Build Status](https://travis-ci.org/brettjurgens/graphql-active-record.svg?branch=master)](https://travis-ci.org/brettjurgens/graphql-active-record)
 
 Active Record includes for GraphQL
 

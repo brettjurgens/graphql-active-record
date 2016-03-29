@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "guard", "~> 2.12"
   spec.add_development_dependency "guard-bundler", "~> 2.1"
+  spec.add_development_dependency "guard-rspec", "~> 4.6.4"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rake", "~> 11.0"
   spec.add_development_dependency "sqlite3"

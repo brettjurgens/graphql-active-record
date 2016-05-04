@@ -5,9 +5,8 @@
 module GraphQL
   module ActiveRecordExtensions
     class Field < ::GraphQL::Field
-      def initialize(model:, type:, use_uuid: false)
+      def initialize(model:, type:)
         @model = model
-        @use_uuid = use_uuid
 
         self.type = type
         self.description = "Find a #{model.name} by ID"
@@ -15,7 +14,11 @@ module GraphQL
           'id' => GraphQL::Argument.define do
             type !GraphQL::ID_TYPE
             description "Id for record"
-          end
+          end,
+          'use_uuid' => GraphQL::Argument.define do
+            type GraphQL::BOOLEAN_TYPE
+            description "Whether or not to use UUID"
+          end,
         }
       end
 
@@ -34,7 +37,7 @@ module GraphQL
 
         model_with_includes = include_in_model(@model, includes)
 
-        if @use_uuid
+        if arguments['use_uuid']
           model_with_includes.find_by_uuid(arguments['id'])
         else
           model_with_includes.find(arguments['id'])

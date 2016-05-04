@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe GraphQL::ActiveRecordExtensions::Field do
-  let(:customer_id) { Customer.first.id }
-  let(:product_id)  { Product.first.id }
+  let(:customer_id)   { Customer.first.id }
+  let(:customer_uuid) { Customer.first.uuid }
+  let(:product_id)    { Product.first.id }
 
   describe 'includes' do
     let(:query_str) do
@@ -58,5 +59,28 @@ RSpec.describe GraphQL::ActiveRecordExtensions::Field do
       result = query(query_str)
       expect(result['data']['customer']['id'].to_i).to eq(customer_id)
     end
+  end
+
+  describe 'with uuid' do
+    let(:query_str) do
+      <<-GQL
+      query {
+        customer(id: "#{customer_uuid}", use_uuid: true) {
+          id
+        }
+      }
+      GQL
+    end
+
+    it "finds by uuid" do
+      expect(Customer)
+        .to receive(:find_by_uuid)
+        .with(customer_uuid)
+        .and_call_original
+
+      result = query(query_str)
+      expect(result['data']['customer']['id'].to_i).to eq(customer_id)
+    end
+
   end
 end

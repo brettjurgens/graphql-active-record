@@ -5,10 +5,12 @@ ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:"
 ActiveRecord::Schema.define do
   self.verbose = false
   create_table :customers do |t|
+    t.column :uuid, :string
     t.column :name, :string
   end
 
   create_table :products do |t|
+    t.column :uuid, :string
     t.column :name, :string
     t.column :customer_id, :integer
   end
@@ -25,7 +27,7 @@ end
 p = Product.new(name: "sample")
 p.save!
 
-c = Customer.new(name: "Brett")
+c = Customer.new(name: "Brett", uuid: "1234")
 
 c.product = p
 c.save!

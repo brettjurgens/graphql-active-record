@@ -26,9 +26,6 @@ Use like:
 
 ```ruby
 GraphQL::ActiveRecordExtensions::Field.new(type: Type, model: Model)
-
-# using UUID
-GraphQL::ActiveRecordExtensions::Field.new(type: Type, model: Model, use_uuid: true)
 ```
 
 ## Development

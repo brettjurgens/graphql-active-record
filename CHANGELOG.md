@@ -1,3 +1,6 @@
+# version 2.1.0
+Add (optional) 'name' parameter to `#generate`
+
 # version 2.0.0
 Make a lot of changes, in order to support more recent versions of graphql-ruby.
 

@@ -5,9 +5,10 @@
 module GraphQL
   module ActiveRecordExtensions
     class Field
-      def self.generate(model:, resolve_type:)
+      def self.generate(model:, resolve_type:, name: nil)
+        n = name || model.name.underscore
         GraphQL::Field.define do
-          name(model.name.underscore)
+          name(n)
           type(resolve_type)
           description("Find a #{model.name} by ID/UUID")
 

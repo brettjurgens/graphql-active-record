@@ -8,7 +8,7 @@ require 'byebug'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 def query(string, variables={})
-  Schema.execute(string, variables: variables, debug: true)
+  Schema.execute(string, variables: variables)
 end
 
 # prevent Test::Unit's AutoRunner from executing during RSpec's rake task

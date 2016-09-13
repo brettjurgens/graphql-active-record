@@ -25,7 +25,7 @@ Or install it yourself as:
 Use like:
 
 ```ruby
-GraphQL::ActiveRecordExtensions::Field.new(type: Type, model: Model)
+GraphQL::ActiveRecordExtensions::Field.generate(resolve_type: Type, model: Model)
 ```
 
 ## Development

@@ -16,7 +16,7 @@ end
 
 QueryType = GraphQL::ObjectType.define do
   name "Query"
-  field :customer, CustomerType, field: GraphQL::ActiveRecordExtensions::Field.new(type: CustomerType, model: Customer)
+  field :customer, CustomerType, field: GraphQL::ActiveRecordExtensions::Field.generate(resolve_type: CustomerType, model: Customer)
 end
 
 Schema = GraphQL::Schema.new(query: QueryType)

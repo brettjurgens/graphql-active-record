@@ -19,7 +19,7 @@ RSpec.describe GraphQL::ActiveRecordExtensions::Field do
     end
 
     it "works" do
-      expect_any_instance_of(GraphQL::ActiveRecordExtensions::Field)
+      expect(GraphQL::ActiveRecordExtensions::Field)
         .to receive(:include_in_model)
         .with(Customer, ['product'])
         .and_call_original
@@ -29,7 +29,7 @@ RSpec.describe GraphQL::ActiveRecordExtensions::Field do
     end
 
     it "ignores bad includes" do
-      expect_any_instance_of(GraphQL::ActiveRecordExtensions::Field)
+      expect(GraphQL::ActiveRecordExtensions::Field)
         .to receive(:include_in_model)
         .with(Customer, ['product'])
         .and_return(Customer.includes(:fake_model))
@@ -51,7 +51,7 @@ RSpec.describe GraphQL::ActiveRecordExtensions::Field do
     end
 
     it "doesn't include" do
-      expect_any_instance_of(GraphQL::ActiveRecordExtensions::Field)
+      expect(GraphQL::ActiveRecordExtensions::Field)
         .to receive(:include_in_model)
         .with(Customer, [])
         .and_call_original

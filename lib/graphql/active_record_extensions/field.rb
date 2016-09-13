@@ -4,22 +4,20 @@
 # somewhat more efficient (hopefully)
 module GraphQL
   module ActiveRecordExtensions
-    class Field < ::GraphQL::Field
-      def initialize(model:, type:)
-        @model = model
+    class Field
+      def self.generate(model:, resolve_type:)
+        GraphQL::Field.define do
+          name(model.name.underscore)
+          type(resolve_type)
+          description("Find a #{model.name} by ID/UUID")
 
-        self.type = type
-        self.description = "Find a #{model.name} by ID"
-        self.arguments = {
-          'id' => GraphQL::Argument.define do
-            type !GraphQL::ID_TYPE
-            description "Id for record"
-          end,
-          'use_uuid' => GraphQL::Argument.define do
-            type GraphQL::BOOLEAN_TYPE
-            description "Whether or not to use UUID"
-          end,
-        }
+          argument :id, !GraphQL::ID_TYPE
+          argument :use_uuid, GraphQL::BOOLEAN_TYPE
+
+          resolve -> (object, arguments, context) do
+            GraphQL::ActiveRecordExtensions::Field.resolve_it(model, object, arguments, context)
+          end
+        end
       end
 
       ##
@@ -32,10 +30,10 @@ module GraphQL
       # @param ctx [GraphQL::Context] the context of the GraphQL query
       #
       # @return eager-loaded ActiveRecord model
-      def resolve(object, arguments, ctx)
-        includes = map_includes(@model, ctx.ast_node.selections, ctx)
+      def self.resolve_it(model, object, arguments, ctx)
+        includes = map_includes(model, ctx.ast_node.selections, ctx)
 
-        model_with_includes = include_in_model(@model, includes)
+        model_with_includes = include_in_model(model, includes)
 
         if arguments['use_uuid']
           model_with_includes.find_by_uuid(arguments['id'])
@@ -44,12 +42,12 @@ module GraphQL
         end
 
         rescue ActiveRecord::ConfigurationError => e
-          @model.find(arguments['id'])
+          model.find(arguments['id'])
       end
 
       private
 
-      def include_in_model(model, includes)
+      def self.include_in_model(model, includes)
         includes.present? ? model.includes(*includes) : model
       end
 
@@ -63,7 +61,7 @@ module GraphQL
       # @param ctx [GraphQL::Context] the context of the GraphQL query. Used to map fragments to models
       #
       # @return Array of tables to include in the query
-      def map_includes(model, selections, ctx)
+      def self.map_includes(model, selections, ctx)
         selections.map do |selection|
 
           table_name, node = handle_fragments(selection, ctx)
@@ -123,7 +121,7 @@ module GraphQL
       # @param ctx [GraphQL::Context] GQL Context used to map fragment to node
       #
       # @return [String, GraphQL::Language::Nodes::*] tuple of node name and node
-      def handle_fragments(node, ctx)
+      def self.handle_fragments(node, ctx)
         if node.class == GraphQL::Language::Nodes::FragmentSpread
           fragment = ctx.query.fragments[node.name]
           [fragment.type.underscore, fragment]

@@ -111,7 +111,7 @@ module GraphQL
           else
             nil
           end
-        end.compact
+        end.flatten.compact
       end
 
       ##
@@ -123,10 +123,13 @@ module GraphQL
       #
       # @return [String, GraphQL::Language::Nodes::*] tuple of node name and node
       def self.handle_fragments(node, ctx)
-        if node.class == GraphQL::Language::Nodes::FragmentSpread
+        if node.is_a?(GraphQL::Language::Nodes::FragmentSpread)
           fragment = ctx.query.fragments[node.name]
-          [fragment.type.underscore, fragment]
-        elsif node.class == GraphQL::Language::Nodes::InlineFragment
+
+          return [ fragment.type.underscore, fragment ] if fragment.type.is_a?(String)
+
+          [fragment.type.name.underscore, fragment]
+        elsif node.is_a?(GraphQL::Language::Nodes::InlineFragment)
           ##
           # avoid auto-including things in InlineFragments
           # If using an interface, not all fields are guaranteed to

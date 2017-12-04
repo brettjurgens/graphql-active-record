@@ -80,11 +80,14 @@ module GraphQL
 
             nested = map_includes(next_model, node.selections, ctx)
 
-            final_type =  if (model.reflections[singular] || model.reflections[singular.to_sym]).present?
+            singular_reflection = model.reflections[singular] || model.reflections[singular.to_sym]
+            plural_reflection = model.reflections[plural] || model.reflections[plural.to_sym]
+
+            final_type =  if valid_association(singular_reflection)
                             # this is for has_one relationships
                             singular
 
-                          elsif (model.reflections[plural] || model.reflections[plural.to_sym]).present?
+                          elsif valid_association(plural_reflection)
                             # this is for has_many relationships
                             plural
 
@@ -141,6 +144,19 @@ module GraphQL
         else
           [node.name, node]
         end
+      end
+
+      ##
+      # Method to check whether a reflection is valid.
+      # Some things, like PowerEnum, have reflections but do not work properly
+      # because they do not have an association_class. So ignore them.
+      #
+      # @param reflection [ActiveRecord::Associations::* | any | nil] Inputted Association
+      # @return [boolean] Whether or not the association is valid
+      def self.valid_association(reflection)
+        return false if reflection.blank?
+        return false unless reflection.respond_to?(:association_class)
+        return (reflection.association_class < ActiveRecord::Associations::Association)
       end
     end
   end

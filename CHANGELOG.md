@@ -1,3 +1,6 @@
+# version 2.2.2
+fix for non-ActiveRecord models failing on includes
+
 # version 2.2.1
 fix fragments for newer versions `graphql-ruby`
 
